@@ -9,8 +9,8 @@ How to use
 ----------------
 You need to install [Gradle](http://gradle.org) to run this application.
 
-Start Selenium grid hub and node. Use `gradle startSeleniumHub` to start grid hub. Use `gradle startSeleniumNode` to start grid node.
+Start Selenium grid hub and node. Use `gradle startSeleniumHub --info` to start grid hub. Use `gradle startSeleniumNode --info` to start grid node.
 
-Use `gradle test` to execute test cases.
+Use `gradle test --info` to execute test cases.
 
 
