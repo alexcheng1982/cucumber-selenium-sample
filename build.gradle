@@ -1,0 +1,45 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    groovy 'org.codehaus.groovy:groovy-all:2.1.1'
+    compile 'org.codehaus.groovy:groovy-all:2.1.1'
+    compile "org.seleniumhq.selenium:selenium-support:${selenium_rev}"
+    compile "org.seleniumhq.selenium:selenium-firefox-driver:${selenium_rev}"
+    compile "org.seleniumhq.selenium:selenium-chrome-driver:${selenium_rev}"
+    compile "org.seleniumhq.selenium:selenium-ie-driver:${selenium_rev}"
+    compile "org.seleniumhq.selenium:selenium-remote-driver:${selenium_rev}"
+    compile "org.seleniumhq.selenium:selenium-server:${selenium_rev}"
+    compile "org.codehaus.geb:geb-core:${geb_rev}"
+    compile "info.cukes:cucumber-java:${cucumber_rev}"
+    compile "info.cukes:cucumber-core:${cucumber_rev}"
+    compile "info.cukes:cucumber-junit:${cucumber_rev}"
+    compile 'info.cukes:gherkin:2.11.6'
+}
+
+task startSeleniumHub() << {
+    ant.java(classname : 'org.openqa.grid.selenium.GridLauncher', 
+            fork:true,
+            classpath : configurations.runtime.asPath
+        ) {
+        arg(value : '-role')
+        arg(value : 'hub')
+    }
+}
+
+task startSeleniumNode() << {
+    ant.java(classname : 'org.openqa.grid.selenium.GridLauncher', 
+            fork:true,
+            classpath : configurations.runtime.asPath) {
+        arg(value : '-role')
+        arg(value : 'node')
+        arg(value : '-hub')
+        arg(value : 'http://localhost:4444/grid/register')
+        arg(value : "-Dwebdriver.firefox.bin=${webdriver_firefox_bin}")
+    }
+}
